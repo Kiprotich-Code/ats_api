@@ -9,12 +9,22 @@ class JobApplication(models.Model):
         ('accepted', 'Accepted'),
     ]
 
+    PRIORITY = [
+        ('High', 'high'),
+        ('Medium', 'medium'),
+        ('Low', 'low'),
+    ]
+
     job_title = models.CharField(max_length=255)
     company = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
+    stage = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    priority = models.CharField(max_length=10, choices=PRIORITY, default='medium')
+    application_status = models.BooleanField(default=False)
     applied_on = models.DateField()
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
-    result = models.TextField(blank=True, null=True)  # Optional, for interview results
-    application_deadline = models.DateField()
+    deadline = models.DateField()
+    link = models.TextField(null=True, blank=True)  # Optional, for interview results
+    note = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.job_title} at {self.company}"
